@@ -1,0 +1,29 @@
+
+version: '3.8'
+
+x-db-envs: &db-envs
+  POSTGRES_DB: blogdb
+  POSTGRES_PASSWORD: password
+  POSTGRES_USER: postgres
+
+x-api-vars: &api-vars
+  DATABASE_URL: postgres://postgres:password@db:5432/blogdb
+  DEBUG: 1
+
+services:
+  db:
+    image: postgres:13-alpine
+    environment:
+      <<: *db-envs
+
+  api:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    ports:
+      - 18000:8000
+    environment:
+      <<: *api-vars
+    depends_on:
+      - db
+    volumes:
+        - .:/app
