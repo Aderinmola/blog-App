@@ -6,3 +6,5 @@ pycache/
 __pycache__/
 .env
 .DS_Store
+migrations/
+__init__.py
